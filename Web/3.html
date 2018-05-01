@@ -1,0 +1,168 @@
+<!doctype html>
+<html >
+
+	<head >
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+	
+	
+	<body  style="background-image: url(imgs/acg.jpg); background-size:cover;">
+		<!--发现页面-->
+		<header class="mui-bar mui-bar-nav">
+		    <h1 class="mui-title">发现生活</h1>
+		</header>
+			<div class="mui-content"  style="background-image: url(imgs/acg.jpg); background-size:cover;">
+				 		<!--
+                         	作者：2290262044@qq.com
+                         	时间：2017-12-15
+                         	描述：一言栏目
+                         -->
+						   <div style="height: 150px;">
+								<h4 style="padding: 10px;">一言</h4>
+								<div class="change">
+									<div id="content"></div>
+									<div id="creator" style="float: right;"></div>
+								</div>
+							</div>
+							
+					<!--
+                    	作者：2290262044@qq.com
+                    	时间：2017-12-15
+                    	描述：历史上的今天
+                    -->
+                     <div style="height: 150px;">
+							<h4 style="padding-top: 10px; padding-left: 10px;">历史上的今天</h4>
+							<div style="padding: 10px;">
+								<div id="naniantitle"></div>
+								<div id="des"></div>
+								<div id="des1"></div>
+								<div id="des2"></div>
+							</div>
+							
+					</div>
+					
+					<!--
+                    	作者：2290262044@qq.com
+                    	时间：2017-12-15
+                    	描述：搞笑图片
+                    -->
+					<div style="height: 150px;">
+							<h4 style="padding: 10px;">天气预报</h4>
+							<div id="today" style="padding: 10px;  color: #EC971F;"></div>
+							<div id="todayWeather" style="padding: 10px;" ></div>
+							<div id="todayNotice" style="float: right;"></div>
+							<br />
+							<div id="tommorrow" style="padding: 15px; color: #DD524D;"></div>
+							<div id="tommorrowWeather"  style="padding: 10px;" ></div>
+							<div id="tommorrowNotice" style="float: right;"></div>
+					</div>	
+							
+				
+			</div>
+	
+		
+		
+		
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui.plusReady(function(){
+				getHitokoto();
+				
+				document.getElementsByClassName('change')[0].addEventListener('tap',function(){
+					getHitokoto();
+				});	
+				
+				getXiaohua();
+				
+ 				getLishi();
+				
+			});
+			
+			function getHitokoto(){
+				mui.get('https://sslapi.hitokoto.cn/',function(data){
+					console.log("一言");
+				//获得服务器响应
+					var content = mui('#content');
+					var creator = mui('#creator');
+					content[0].innerHTML = '『 '+data.hitokoto+'』';
+					creator[0].innerHTML = '-「 '+data.creator+' 」';
+				},'json'
+				);	
+//				var bg = mui('#contents');
+//				bg[0].style.background =  "url(https://img.xjh.me/random_img.php?type=bg&ctype=acg&return=302);";
+				
+//				mui.get('https://img.xjh.me/random_img.php?type=bg&ctype=acg',function(data){
+//					console.log("图片");
+//					//获得服务器响应
+//					console.log(document.getElementsByClassName('mui-content')[0]);
+//					var bg = document.getElementsByClassName('mui-content')[0].style.background='imgs/cbd.jpg';
+//					
+//				},'json'
+//				);	
+			}
+			
+			function getLishi(){
+				var myDate = new Date();
+				var myDay = myDate.getDate();
+				var key = 'ccccea134daeba1c92392e47ace9c26b';
+				var myMonth = myDate.getMonth()+1;
+				console.log(myDay+' '+myMonth);
+				var url = 'http://api.juheapi.com/japi/toh?key='+key+'&v=1.0&month='+myMonth+'&day='+myDay;
+				console.log(url);
+				mui.get('https://www.ipip5.com/today/api.php?type=json',function(data){
+					console.log("历史上的今天");			
+					var des = mui('#des');
+					des[0].innerHTML = data.result[0].year+'年'+data.result[0].title;
+					
+					var naniantitle = mui('#naniantitle');
+					naniantitle[0].innerHTML = data.today;
+					
+					var des1 = mui('#des1');
+					des1[0].innerHTML = data.result[1].year+'年'+data.result[1].title;
+					
+					var des2 = mui('#des2');
+					des2[0].innerHTML = data.result[2].year+'年'+data.result[2].title;
+				
+					},'json'
+				);	
+			}
+			
+			function getXiaohua(){
+				mui.get('http://www.sojson.com/open/api/weather/json.shtml?city=%E6%B9%98%E6%BD%AD',function(data){
+					console.log("天气");
+				//获得服务器响应
+				
+				   var myDate = new Date();//获取系统当前时间
+				   
+					var today = mui('#today');
+					var todayWeather = mui('#todayWeather');
+					var todayNotice = mui('#todayNotice')
+					today[0].innerHTML = '湘潭今日气温';
+					todayWeather[0].innerHTML = '空气质量: '+data.data.quality+'  ,'+data.data.forecast[0].high+'   ,'+
+													data.data.forecast[0].low+'   ,'+data.data.forecast[0].type;
+					todayNotice[0].innerHTML ='『 '+ data.data.forecast[0].notice+'』';
+					
+					var tommorrow = mui('#tommorrow');
+					var tommorrowWeather = mui('#tommorrowWeather');
+					var tommorrowNotice = mui('#tommorrowNotice')
+					 
+					 
+					tommorrow[0].innerHTML = '湘潭明日气温';
+					tommorrowWeather[0].innerHTML = '空气质量: '+data.data.quality+'  ,'+data.data.forecast[1].high+'   ,'+
+													data.data.forecast[1].low+'   ,'+data.data.forecast[1].type;
+					tommorrowNotice[0].innerHTML ='『 '+ data.data.forecast[1].notice+'』';
+					
+				},'json'
+				);	
+			}
+			
+		</script>
+		
+		
+	</body>
+
+</html>

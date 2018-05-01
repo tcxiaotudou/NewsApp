@@ -1,0 +1,111 @@
+{
+  "info.html": {
+    "href": "info.html",
+    "resources": [
+      "js/mui.min.js",
+      "js/mui.zoom.js",
+      "js/mui.previewimage.js",
+      "css/mui.min.css"
+    ],
+    "refer": [],
+    "priority": 0
+  },
+  "2.html": {
+    "href": "2.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js"
+    ],
+    "refer": [
+      "info.html"
+    ],
+    "priority": 0
+  },
+  "newsLists.html": {
+    "href": "newsLists.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js"
+    ],
+    "refer": [
+      "info.html"
+    ],
+    "priority": 0
+  },
+  "1.html": {
+    "href": "1.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "imgs/yuantiao.jpg",
+      "imgs/cbd.jpg",
+      "imgs/muwu.jpg",
+      "imgs/shuijiao.jpg"
+    ],
+    "refer": [
+      "info.html",
+      "newsLists.html"
+    ],
+    "priority": 0
+  },
+  "reg.html": {
+    "href": "reg.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js"
+    ],
+    "refer": [
+      "login.html"
+    ],
+    "priority": 0
+  },
+  "login.html": {
+    "href": "login.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js"
+    ],
+    "refer": [
+      "index.html",
+      "reg.html"
+    ],
+    "priority": 0
+  },
+  "4.html": {
+    "href": "4.html",
+    "resources": [
+      "js/mui.min.js",
+      "js/mui.view.js",
+      "js/feedback.js",
+      "css/mui.min.css"
+    ],
+    "refer": [
+      "login.html"
+    ],
+    "priority": 0
+  },
+  "3.html": {
+    "href": "3.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "imgs/acg.jpg"
+    ],
+    "refer": [],
+    "priority": 0
+  },
+  "index.html": {
+    "href": "index.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js"
+    ],
+    "refer": [
+      "2.html",
+      "1.html",
+      "4.html",
+      "3.html"
+    ],
+    "priority": 0
+  }
+}

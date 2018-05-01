@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title" id="title">标题</h1>
+		</header>
+		<div class="mui-content">
+			
+			<ul class="mui-table-view" id="lists">
+				<!--<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;">
+						<img class="mui-media-object mui-pull-right" src="imgs/cbd.jpg">
+						<div class="mui-media-body">
+							远眺
+							<p class="mui-ellipsis">静静的看这个世界，最后终于疯了</p>
+						</div>
+					</a>
+				</li>-->
+			</ul>
+			
+		</div>
+				
+				
+		
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			
+			mui.plusReady(function(){
+				var datas = plus.webview.currentWebview();
+				var title1 = mui('#title');
+				title1[0].innerHTML = datas.title;
+				var type = datas.type;
+				
+				var newstype='';
+				if(type==1){
+					newstype='star';
+				}else if(type==2){
+					newstype='hot';
+				}else if(type==3){
+					newstype='fun';
+				}else if(type==4){
+					newstype='life';
+				}
+				console.log(newstype);
+				mui.ajax('http://172.20.10.8:8080/news/'+newstype+'/all',{
+					dataType:'json',//服务器返回json格式数据
+					type:'get',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；   
+					success:function(data){
+						var str = '';
+					for(var i=0;i<data.length;i++){
+						console.log("进来了分类的请求");
+					str = str + '<li class="mui-table-view-cell mui-media" id="'+data[i].id+'"><a href="javascript:;"><img class="mui-media-object mui-pull-right" src="'+data[i].img+'"><div class="mui-media-body">'+data[i].title+'<p class="mui-ellipsis">'+data[i].info+'</p></div></a></li>';
+					}
+					var lists = document.getElementById('lists');
+					lists.innerHTML = str;
+					
+					},
+					error:function(xhr,type,errorThrown){
+						console.log(type);
+					}
+				});
+				
+				
+				//列表页跳详情页
+				var prPage = mui.preload({
+  		  		url: 'info.html',
+  		  		id: 'info.html'
+  		  		});
+  		  	
+  		  		mui('#lists').on('tap','li',function(){
+  		  			var this_ = this;
+					var index = this_.id;
+					console.log(index);
+  		  		console.log("进来了分类页面");
+  		  		mui.fire(prPage,'newsinfo',{
+  		  			'id': index
+  		  		});
+  		  		mui.openWindow({
+  		  			url: 'info.html',
+  		  			id: 'info.html'
+  		  		});
+  		  	});
+			});
+		
+							
+				//B页面onload从服务器获取列表数据；
+				window.onload = function(){
+				  //从服务器获取数据
+				  //业务数据获取完毕，并已插入当前页面DOM；
+				  //注意：若为ajax请求，则需将如下代码放在处理完ajax响应数据之后；
+				  mui.plusReady(function(){
+				    //关闭等待框
+				    plus.nativeUI.closeWaiting();
+				    //显示当前页面
+				    mui.currentWebview.show();
+				  });
+				}
+		</script>
+	</body>
+
+</html>

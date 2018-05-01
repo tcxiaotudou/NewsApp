@@ -1,0 +1,383 @@
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<!--App自定义的css-->
+		<style type="text/css">
+			.mui-preview-image.mui-fullscreen {
+				position: fixed;
+				z-index: 20;
+				background-color: #000;
+			}
+			.mui-preview-header,
+			.mui-preview-footer {
+				position: absolute;
+				width: 100%;
+				left: 0;
+				z-index: 10;
+			}
+			.mui-preview-header {
+				height: 44px;
+				top: 0;
+			}
+			.mui-preview-footer {
+				height: 50px;
+				bottom: 0px;
+			}
+			.mui-preview-header .mui-preview-indicator {
+				display: block;
+				line-height: 25px;
+				color: #fff;
+				text-align: center;
+				margin: 15px auto 4;
+				width: 70px;
+				background-color: rgba(0, 0, 0, 0.4);
+				border-radius: 12px;
+				font-size: 16px;
+			}
+			.mui-preview-image {
+				display: none;
+				-webkit-animation-duration: 0.5s;
+				animation-duration: 0.5s;
+				-webkit-animation-fill-mode: both;
+				animation-fill-mode: both;
+			}
+			.mui-preview-image.mui-preview-in {
+				-webkit-animation-name: fadeIn;
+				animation-name: fadeIn;
+			}
+			.mui-preview-image.mui-preview-out {
+				background: none;
+				-webkit-animation-name: fadeOut;
+				animation-name: fadeOut;
+			}
+			.mui-preview-image.mui-preview-out .mui-preview-header,
+			.mui-preview-image.mui-preview-out .mui-preview-footer {
+				display: none;
+			}
+			.mui-zoom-scroller {
+				position: absolute;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				-webkit-backface-visibility: hidden;
+			}
+			.mui-zoom {
+				-webkit-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+			}
+			.mui-slider .mui-slider-group .mui-slider-item img {
+				width: auto;
+				height: auto;
+				max-width: 100%;
+				max-height: 100%;
+			}
+			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+				width: 100%;
+			}
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+				display: inline-table;
+			}
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			.mui-preview-loading {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			.mui-preview-loading.mui-active {
+				display: block;
+			}
+			.mui-preview-loading .mui-spinner-white {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -25px;
+				margin-top: -25px;
+				height: 50px;
+				width: 50px;
+			}
+			.mui-preview-image img.mui-transitioning {
+				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+				transition: transform 0.5s ease, opacity 0.5s ease;
+			}
+			@-webkit-keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			@keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			@-webkit-keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			@keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			p img {
+				max-width: 100%;
+				height: auto;
+				data-preview-src: "";
+				data-preview-group: "1";
+			}
+	
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title" id="title"></h1>
+		</header>
+		<div class="mui-content">
+			<div style="height: 5%;">
+				<div style="padding: 15px; font-size: small;" id="author">tangchao--2017-12-18 </div>
+				<h5 id="zan" style="position:absolute;right:0px;top: 7%; font-size: larger; color: #CF2D28;"></h5>
+			</div>
+			
+			
+			
+			<div class="mui-content-padded"  id="content"> 
+				<!--<p>这是图片放大预览示例，点击如下图片体验全屏预览功能</p>
+				<p>//        data-preview-src="" data-preview-group="1" 
+					<img src="imgs/yuantiao.jpg" data-preview-src="" data-preview-group="1" />
+				</p>
+				<p>图片全屏后，双击或双指缩放均可对图片进行放大、缩小操作，左右滑动可查看同组(data-preview-group相同的图片为一组)其它图片，点击会关闭预览</p>
+				<p>
+					<img src="imgs/muwu.jpg" data-preview-src="" data-preview-group="1" />
+				</p>
+				<p>第三张图片，纯粹为了占位： </p>
+				<p>
+					<img src="imgs/shuijiao.jpg" data-preview-src="" data-preview-group="1" />
+				</p>-->
+			</div>
+			<!--描述：评论模块 -->
+			 <ul class="mui-table-view"> 
+		        <li class="mui-table-view-cell mui-collapse">
+		            <a class="mui-navigate-right" href="#" style="background-color: #F2F2F2">查看评论<div id="commentCounts" style="float: right; color: darkorange">0</div></a>
+		            <div class="mui-collapse-content" style="background-color: #F3F3F3">
+		                <ul class="mui-table-view" id="commentList" style="background-color: #F3F3F3" >
+						    <!--<li class="mui-table-view-cell"> 
+						      	<div id="commentUserInfo">
+						      		<div id="commentUser">
+						      			tangchao
+						      		</div>
+						      		
+						      		<div id="commentTime" style="float: right" >
+						      			<h5>发表于2017-12-18</h5>
+						      		</div>
+						      	</div>
+						      	<div id="commentContent" style="padding-top: 5px; font-size: small;">哈哈哈哈哈这个好搞笑</div>
+						    </li>-->			  
+						</ul>
+		            </div>
+		        </li>
+		   </ul>
+			
+			<!-- 发表评论-->
+			<div style="padding-top: 20px;">
+				<form class="mui-input-group">
+					
+					<div >
+						<div class="mui-input-row" style="position:absolute;left:0; right: 10%; height: 33px;">
+							<input type="text" id="myText" class="mui-input-clear" placeholder="发表评论"  > 
+						</div>
+						
+						<div style="position:absolute;right:0px; width: 10%;">
+							<button type="button" id="btn" class="mui-btn mui-btn-blue" style="float: right;">发表</button>			     
+						</div>
+					</div>
+	
+				    	   
+				</form>
+				
+			</div>
+		</div>
+	</body>
+	<script src="js/mui.min.js"></script>
+	<script src="js/mui.zoom.js"></script>
+	<script src="js/mui.previewimage.js"></script>
+	<script type="text/javascript">
+		mui.previewImage();
+//		window.onload = function(){
+//		  //从服务器获取数据
+//		  ....
+//		  //业务数据获取完毕，并已插入当前页面DOM；
+//		  //注意：若为ajax请求，则需将如下代码放在处理完ajax响应数据之后；
+//		  mui.plusReady(function(){
+//		    plus.nativeUI.closeWaiting();
+//		    mui.currentWebview.show();
+//		  });
+//		}
+		
+		mui.init({
+			swipeBack:true
+			
+		});
+		var newsid;
+		mui.plusReady(function(){
+			var zanCounts;	
+		
+			window.addEventListener('newsinfo',function(e){
+				var flag = 0;
+				console.log("进来了详情页面");
+				newsid = e.detail.id;
+				console.log(newsid);
+//				title[0].innerHTML = e.detail.title;
+				mui.ajax('http://172.20.10.8:8080/news/'+newsid,{
+					dataType:'json',
+					type:'get',
+					timeout:10000,             
+					success:function(data){
+						console.log("详情页面刷新");
+						var title = document.getElementById('title');
+						var content = document.getElementById('content');
+						var authorinfo= document.getElementById('author');
+						var zan= document.getElementById('zan');
+						zanCounts = data.zan;
+						zan.innerHTML ='赞一个 '+zanCounts;
+						title.innerHTML = data.title;
+						content.innerHTML = data.text;
+						authorinfo.innerHTML = data.author+'---'+data.timeformat;
+						reloadComment();
+					},
+					error:function(xhr,type,errorThrown){
+						console.log(type);
+					}
+				});
+			
+			
+				document.getElementById('zan').addEventListener('tap',function(){
+					if(flag<=0){
+						zanCounts = zanCounts + 1;
+						console.log("点赞之后的赞数量为："+zanCounts);
+						document.getElementById('zan').innerHTML = '赞一个 '+zanCounts;		
+		
+						mui.post('http://172.20.10.8:8080/news/'+newsid+'/zan',{								
+							},function(data){
+								flag = 1;
+								if(data.status==200){
+									mui.toast(data.msg);
+								}
+							},'json'
+						);
+						return;
+					}
+					else{
+						mui.toast('你已经赞过了');
+					}
+				});
+			
+					window.addEventListener('AddNew',function(){
+					plus.webview.getWebviewById('info').reload();
+				});
+		
+		});
+			
+				document.getElementById('btn').addEventListener('tap',function(){
+					var textVal = document.getElementById('myText').value;
+					console.log(newsid);
+					var userName = plus.storage.getItem("userName");
+					console.log(userName+'发表了评论');
+					var userId;
+					
+					mui.getJSON('http://172.20.10.8:8080/user/'+userName,function(data){
+						console.log('查找用户请求成功');
+						mui.toast(newsid+' '+data.id+' '+textVal);
+										mui.post('http://172.20.10.8:8080/comment',{
+										nid: newsid,
+										uid: data.id,
+										text: textVal
+									},function(data){
+										console.log("评论成功了");
+										document.getElementById('myText').value='';
+										reloadComment();
+									},'json'
+								);
+						}
+					);
+
+					
+					
+					
+				});
+				
+				function reloadComment(){
+					mui.ajax('http://172.20.10.8:8080/comment/'+newsid,{
+					dataType:'json',
+					type:'get',
+					timeout:10000,             
+					success:function(data){
+						console.log("评论刷新了");
+						var comentLists = document.getElementById('commentList');
+						var str = '';
+						if(data.length>0){
+							for(var i=0;i<data.length;i++){
+							str+='<li class="mui-table-view-cell"> <div id="commentUserInfo"><div id="commentUser">'+data[i].userName+'</div><div id="commentTime" style="float: right" ><h5>发表于'+data[i].time+'</h5></div></div><div id="commentContent" style="font-size: small;">'+data[i].text+'</div></li>';
+						 }
+					  }
+						comentLists.innerHTML = str;
+						
+						document.getElementById('commentCounts').innerHTML = data.length;
+					},
+					error:function(xhr,type,errorThrown){
+						console.log(type);
+					}
+				});
+				}
+				
+				imgs = document.getElementsByTagName("img");
+				
+				
+////				data-preview-src="" data-preview-group="1" 
+//				imgs.setAttribute("data-preview-src","");
+//				imgs.setAttribute("data-preview-group","1");
+//				
+			});
+	</script>
+	
+</html>

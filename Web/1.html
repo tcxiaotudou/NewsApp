@@ -1,0 +1,189 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/icons-extra.css" rel="stylesheet" />
+		
+	</head>
+	
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <h1 class="mui-title">网易新闻</h1>
+		</header>
+		
+		<div class="mui-content">
+		    
+		    
+	<div class="mui-slider">
+  <div class="mui-slider-group mui-slider-loop">
+    <!--支持循环，需要重复图片节点-->
+    <div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="imgs/yuantiao.jpg" /></a></div>
+    <div class="mui-slider-item"><a href="#"><img src="imgs/cbd.jpg" /></a></div>
+    <div class="mui-slider-item"><a href="#"><img src="imgs/muwu.jpg" /></a></div>
+    <div class="mui-slider-item"><a href="#"><img src="imgs/shuijiao.jpg" /></a></div>
+    <div class="mui-slider-item"><a href="#"><img src="imgs/yuantiao.jpg" /></a></div>
+    <!--支持循环，需要重复图片节点-->
+    <div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="imgs/cbd.jpg" /></a></div>
+  </div>
+  	<div class="mui-slider-indicator">
+   		<div class="mui-indicator mui-active"></div>
+    	<div class="mui-indicator"></div>
+    	<div class="mui-indicator mui-active"></div>
+    	<div class="mui-indicator"></div>
+	</div>
+</div>
+	
+	<script type="text/javascript">
+	
+	</script>
+	
+	<ul class="mui-table-view mui-grid-view mui-grid-4" id="categories">
+	<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="1" >
+	    <a href="#" >
+	        <span class="mui-icon mui-icon-image"></span>
+	        <div class="mui-media-body" >明星资讯</div>
+	    </a>
+	</li>
+	
+	<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="2">
+	    <a href="#">
+	        <span class="mui-icon mui-icon-spinner-cycle mui-spin"><span class="mui-badge mui-badge-red"></span></span>
+	        <div class="mui-media-body">时下热点</div>
+	    </a>
+	</li>
+	<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="3">
+	    <a href="#">
+	        <span class="mui-icon mui-icon-spinner mui-spin"></span>
+	        <div class="mui-media-body">体育综合</div>
+	    </a>
+	</li>
+
+	<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="4">
+	    <a href="#">
+	        <span class="mui-icon mui-icon-paperplane"></span>
+	        <div class="mui-media-body">文学历史</div>
+	    </a>
+	</li>
+	    </ul>
+	
+	
+	<ul class="mui-table-view" id="lists">
+	    
+	</ul>
+	
+	</div>
+		    
+		</div>
+		
+		
+		
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				
+				beforeback: function(){
+					var scanner = plus.webview.getWebviewById('info');
+					return true;
+				}
+				
+			});
+			 mui('.mui-scroll-wrapper').scroll({
+      	  	deceleration: 0.001 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+  		  });
+  		  
+//		  window.addEventListener('refresh', function(e) {  
+//		        location.reload();  
+//		        //document.getElementById('indexHeader').innerHTML = 'Hello World';  
+//		    })  
+
+			
+  		  
+  		  mui.plusReady(function(){
+  		  	
+  		  	mui.ajax('http://172.20.10.8:8080/indexNews',{
+					data:{
+					},
+					dataType:'json',
+					type:'get',
+					timeout:10000, 
+					success:function(data){
+						
+					var str = '';
+					for(var i=0;i<data.content.length;i++){
+						console.log("进来了全部的请求");
+					str = str + '<li class="mui-table-view-cell mui-media" id="'+data.content[i].id+'"><a href="javascript:;"><img class="mui-media-object mui-pull-right" src="'+data.content[i].img+'"><div class="mui-media-body">'+data.content[i].title+'<p class="mui-ellipsis">'+data.content[i].info+'</p></div></a></li>';
+					}
+					var lists = document.getElementById('lists');
+					lists.innerHTML = str;
+					
+					mui('#lists').on('tap','li',function(){
+						
+						var this_ = this;
+						var index = this_.id;
+						console.log(index);
+						
+		  		  		mui.fire(prPage,'newsinfo',{
+		  		  			'id': index
+		  		  		});
+		  		  		mui.openWindow({
+		  		  			url: 'info.html',
+		  		  			id: 'info.html'
+		  		  		});
+		  		  	  });
+		  		  		
+					
+					},
+					error:function(xhr,type,errorThrown){
+						console.log(type);
+					}
+				});
+  		  	
+  		  	
+  		  	var prPage = mui.preload({
+  		  		url: 'info.html',
+  		  		id: 'info.html'
+  		  	});
+  		  	
+  		  	mui('#lists').on('tap','li',function(){
+  		  		console.log("进来了");
+  		  		mui.fire(prPage,'newsinfo',{
+  		  			'title': '新闻标题',
+  		  			'id': '新闻ID'
+  		  		});
+  		  		mui.openWindow({
+  		  			url: 'info.html',
+  		  			id: 'info.html'
+  		  		});
+  		  	});
+  		  	
+  		  	mui('#categories').on('tap','li',function(){
+  		  		var this_ = this;	  	
+  		  		mui.openWindow({
+  		  			url: 'newsLists.html',
+  		  			id: 'newsLists.html',
+  		  			extras:{
+    				 		'title': this_.querySelector("div.mui-media-body").innerHTML,
+		  					'type': this_.id
+		  					
+   						 },
+   					show:{
+    					  autoShow:false
+    					}
+  		  		});
+  		  	});
+  		  	
+  		  	var gallery = mui('.mui-slider');
+				gallery.slider({
+				  interval:3000
+				});
+  		  });
+  		  
+		</script>
+	</body>
+
+</html>
+

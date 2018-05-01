@@ -1,0 +1,133 @@
+<!DOCTYPE html>  
+<html>  
+    <head>  
+        <meta charset="UTF-8">  
+        <title></title>  
+        <link href="css/mui.min.css" rel="stylesheet" />  
+          
+    </head>  
+    <body>  
+        <nav class="mui-bar mui-bar-tab " id="nav">  
+            <a class="mui-tab-item mui-active" id="a1">  
+                <span class="mui-icon mui-icon-home"></span>  
+                <span class="mui-tab-label">首页</span>  
+            </a>  
+            
+            <a class="mui-tab-item " id="a2">  
+                <span class="mui-icon mui-icon-chatbubble"><!--<span class="mui-badge"></span>--></span>  
+                <span class="mui-tab-label">全部</span>  
+            </a>  
+            
+            <a class="mui-tab-item " id="a3">  
+                <span class="mui-icon mui-icon mui-icon-search"><!--<span class="mui-badge">9</span>--></span>  
+                <span class="mui-tab-label">发现</span>  
+            </a>  
+            
+            <a class="mui-tab-item " id="a4">  
+                <span class="mui-icon mui-icon-contact"><!--<span class="mui-badge">9</span>--></span>  
+                <span class="mui-tab-label">我的</span>  
+            </a>  
+        </nav>  
+        <script src="js/mui.min.js"></script>  
+        <script type="text/javascript" charset="utf-8">  
+            mui.init({  
+            	beforeback: function(){
+					var list = plus.webview.getWebviewById('login');
+					mui.fire(list,'refresh');				
+					return true;
+				},
+                    subpages:[
+                        {  
+                          url:'1.html',  
+                          id:'a1',  
+                          styles:{  
+                             top:'0px',  
+                                bottom:'60px'  
+                          }  
+                        }              
+                    ],  
+                    preloadPages:[//缓存其他页面  
+                     
+                        {  
+                          url:'2.html',  
+                          id:'a2',  
+                          styles:{  
+                             top:'0px',  
+                            bottom:'60px'  
+                          }   
+                        },  
+                        {  
+                          url:'3.html',  
+                          id:'a3',  
+                          styles:{  
+                             top:'0px',  
+                            bottom:'60px'  
+                          }  
+                        },
+                        {  
+                          url:'4.html',  
+                          id:'a4',  
+                          styles:{  
+                             top:'0px',  
+                            bottom:'60px'  
+                          }  
+                        }  
+                    ] ,
+                    beforeback: function(){
+					var scanner = plus.webview.getWebviewById('1');
+					return true;
+					}
+                      
+                });  
+            mui.plusReady(function(){ 	
+ 
+            	console.log("主页plusready方法执行");
+            	window.addEventListener('userEvent',function(e){
+            		var userName = e.detail.userName;
+            		console.log("登录的用户名为：" + userName);
+            	});
+ 			
+            	
+                var winAll=plus.webview.all();
+                //console.log(JSON.stringify(winAll))   
+                var a1,a2,a3,a4;
+//            	 var a1=plus.webview.getWebviewById("a1");  
+//            	 var a2=plus.webview.getWebviewById("a2"); 
+//               var a3=plus.webview.getWebviewById("a3"); 
+//               var a4=plus.webview.getWebviewById("a4"); 
+                 mui("#nav").on("tap","#a1",function(){
+					 a1=plus.webview.getWebviewById("a1");  
+                    console.log(JSON.stringify(a1))   
+                    a1.show();
+                    a2.hide();
+                    a3.hide();
+                    a4.hide();
+                })  
+               mui("#nav").on("tap","#a2",function(){  
+                     a2=plus.webview.getWebviewById("a2");  
+                    a2.show();
+                      
+                })  
+                mui("#nav").on("tap","#a3",function(){  
+                	
+                    a3=plus.webview.getWebviewById("a3");  
+                    mui.fire(a3,'reflush');
+                    
+                    a3.show();
+                      
+                })  
+                
+                 mui("#nav").on("tap","#a4",function(){ 
+                    a4=plus.webview.getWebviewById("a4");  
+                    a4.show();  
+                      
+                })  
+            });  
+            
+            window.addEventListener("pageflowrefresh", function (e) {
+				    location.reload();
+				});
+            
+        </script>  
+          
+    </body>  
