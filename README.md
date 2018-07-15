@@ -11,7 +11,8 @@
 项目分2部分，一个web端，一个server端。 
 > 1.将server端的代码导入IDEA，在properties文件中配置好数据库信息。由于使用Spring data JPA，创建好数据库后，运行项目会自动建表。 
 
-> 2.将web端的代码导入Hbuilder，运行指南见官方文档：http://dev.dcloud.net.cn/mui/getting-started/ 
+> 2.将web端的代码导入Hbuilder，运行指南见官方文档：http://dev.dcloud.net.cn/mui/getting-started/ 。
+
 > 3.运行server端代码，运行web端代码。
 
 效果
