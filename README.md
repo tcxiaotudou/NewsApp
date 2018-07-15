@@ -18,5 +18,27 @@
 效果
 --
 
-详情见 https://blog.csdn.net/fciasth/article/details/80154860
+首页：
 
+![img](https://github.com/tcxiaotudou/NewsApp/blob/master/Web/imgs/%E9%A6%96%E9%A1%B5.PNG)
+
+新闻分类：
+
+![img](https://github.com/tcxiaotudou/NewsApp/blob/master/Web/imgs/%E6%96%B0%E9%97%BB%E5%88%86%E7%B1%BB.PNG)
+
+新闻详情：
+
+![img](https://github.com/tcxiaotudou/NewsApp/blob/master/Web/imgs/%E6%96%B0%E9%97%BB%E8%AF%A6%E6%83%85.PNG)
+
+评论：
+
+![img](https://github.com/tcxiaotudou/NewsApp/blob/master/Web/imgs/%E8%AF%84%E8%AE%BA.PNG)
+
+发现：
+
+![img](https://github.com/tcxiaotudou/NewsApp/blob/master/Web/imgs/%E5%8F%91%E7%8E%B0.PNG)
+
+
+登录注册：
+
+![img](https://github.com/tcxiaotudou/NewsApp/blob/master/Web/imgs/%E7%99%BB%E5%BD%95.PNG)
